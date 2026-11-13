@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Study Map – Cộng đồng sinh viên học thông minh cùng AI</title>
+<meta name="description" content="Bản đồ cách dùng AI trong học tập: dùng thế nào là hiệu quả, chỗ nào cần cẩn thận, chỗ nào không nên. Có diễn đàn chia sẻ kinh nghiệm.">
+<style>
+  :root {
+    --navy: #0f2747;
+    --blue: #1d4ed8;
+    --sky: #e8f0fe;
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --text: #172033;
+    --muted: #5d6b82;
+    --border: #dde4ef;
+    --green: #16a34a;  --green-bg: #e7f7ed;
+    --yellow: #d99a06; --yellow-bg: #fff6dc;
+    --red: #dc2626;    --red-bg: #fde8e8;
+    --radius: 16px;
+    --shadow: 0 6px 22px rgba(15, 39, 71, .08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6; font-size: 16px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 18px; }
+  h2 { font-size: 24px; margin-bottom: 6px; }
+  .sub { color: var(--muted); margin-bottom: 20px; }
+  section { padding: 34px 0; }
+
+  /* Nav */
+  header { position: sticky; top: 0; z-index: 50; background: var(--navy); color: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,.2); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .logo { font-weight: 800; letter-spacing: .04em; color: #fff; text-decoration: none; }
+  .links { display: flex; gap: 6px; }
+  .links a { color: #cfdcf3; text-decoration: none; padding: 8px 14px; border-radius: 10px;
+    font-weight: 600; font-size: 15px; }
+  .links a:hover, .links a.active { background: rgba(255,255,255,.14); color: #fff; }
+  .burger { display: none; background: none; border: 1px solid rgba(255,255,255,.35);
+    color: #fff; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+
+  /* Alert banner */
+  .banner { background: var(--yellow-bg); border-left: 5px solid var(--yellow);
+    border-radius: 12px; padding: 14px 18px; margin-top: 20px; font-size: 15px; }
+
+  /* Hero */
+  .hero { text-align: center; padding: 44px 0 28px; }
+  .hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.2; color: var(--navy); margin-bottom: 14px; }
+  .hero p { max-width: 660px; margin: 0 auto 24px; color: var(--muted); font-size: 18px; }
+  .btn { display: inline-block; border: 0; cursor: pointer; font: inherit; font-weight: 700;
+    padding: 12px 22px; border-radius: 12px; text-decoration: none; margin: 4px; }
+  .btn.primary { background: var(--blue); color: #fff; }
+  .btn.light { background: var(--card); color: var(--blue); border: 1px solid var(--border); }
+  .btn:hover { filter: brightness(.95); }
+
+  /* Stats */
+  .stats { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .stat { background: var(--card); border-radius: var(--radius); padding: 18px 20px;
+    box-shadow: var(--shadow); display: flex; gap: 14px; align-items: center; }
+  .stat .ic { font-size: 30px; }
+  .stat small { color: var(--muted); display: block; }
+  .stat b { font-size: 22px; color: var(--navy); }
+
+  /* Badges & list */
+  .badge { display: inline-block; font-size: 13px; font-weight: 700; padding: 3px 10px;
+    border-radius: 999px; white-space: nowrap; }
+  .badge.g { background: var(--green-bg); color: var(--green); }
+  .badge.y { background: var(--yellow-bg); color: #a16f00; }
+  .badge.r { background: var(--red-bg); color: var(--red); }
+  .list { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .row:last-child { border-bottom: 0; }
+  .note { color: var(--muted); font-size: 14px; margin-top: 10px; }
+
+  /* Tips */
+  .tips { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .tip { background: var(--card); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow);
+    border-top: 4px solid var(--blue); }
+  .tip b { color: var(--navy); }
+
+  /* Tool map */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .chip { border: 1px solid var(--border); background: var(--card); padding: 8px 14px; border-radius: 999px;
+    cursor: pointer; font: inherit; font-weight: 600; font-size: 14px; color: var(--text); }
+  .chip.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+  .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .dot.g { background: var(--green); } .dot.y { background: var(--yellow); } .dot.r { background: var(--red); }
+  .map { background: linear-gradient(135deg, #e3edfb, #f1f6fd); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px; }
+  .pins { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+  .pin { text-align: left; background: var(--card); border: 2px solid transparent; border-radius: 14px;
+    padding: 14px; cursor: pointer; font: inherit; color: var(--text); box-shadow: 0 2px 8px rgba(15,39,71,.08);
+    transition: transform .12s; }
+  .pin:hover { transform: translateY(-2px); }
+  .pin.sel { border-color: var(--blue); }
+  .pin .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 22px; }
+  .pin b { display: block; font-size: 15px; line-height: 1.35; }
+  .detail { margin-top: 14px; background: var(--card); border-radius: 14px; padding: 18px 20px;
+    border-left: 5px solid var(--blue); box-shadow: 0 2px 8px rgba(15,39,71,.08); }
+  .detail h3 { margin-bottom: 4px; }
+  .detail p { color: var(--muted); margin-top: 6px; }
+  .hint { margin-top: 12px; font-size: 14px; color: var(--muted); }
+
+  /* Forum */
+  .head-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .posts { display: grid; gap: 12px; margin-top: 12px; }
+  .post { background: var(--card); border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow); }
+  .post .meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .post .meta b { color: var(--navy); }
+  .post small { color: var(--muted); }
+  .sample { font-size: 12px; color: var(--muted); border: 1px dashed var(--border); border-radius: 6px; padding: 1px 6px; margin-left: 6px; }
+
+  /* Form */
+  .form { background: var(--card); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+  label { display: block; font-weight: 700; margin: 14px 0 6px; font-size: 15px; }
+  input, select, textarea { width: 100%; font: inherit; padding: 11px 13px; border-radius: 10px;
+    border: 1px solid var(--border); background: #fff; color: var(--text); }
+  textarea { min-height: 110px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--blue); border-color: transparent; }
+  .form .btn { margin: 18px 0 0; width: 100%; }
+
+  footer { background: var(--navy); color: #b9c8e2; text-align: center; padding: 24px 18px; margin-top: 30px; font-size: 14px; }
+
+  /* Toast */
+  .toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 90px); background: var(--green);
+    color: #fff; padding: 12px 26px; border-radius: 12px; font-weight: 700; box-shadow: var(--shadow);
+    transition: transform .3s; z-index: 100; }
+  .toast.show { transform: translate(-50%, 0); }
+
+  @media (max-width: 720px) {
+    .burger { display: block; }
+    .links { display: none; position: absolute; top: 58px; left: 0; right: 0; background: var(--navy);
+      flex-direction: column; padding: 8px 18px 14px; gap: 2px; }
+    .links.open { display: flex; }
+    .row { flex-direction: column; align-items: flex-start; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#home">🎓 AI STUDY MAP</a>
+    <button class="burger" id="burger" aria-label="Mở menu">Menu</button>
+    <nav class="links" id="links">
+      <a href="#home" class="active">Trang chủ</a>
+      <a href="#map">Bản đồ</a>
+      <a href="#forum">Diễn đàn</a>
+      <a href="#report">Chia sẻ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="banner" id="home">
+    <b>⚠️ Mùa thi và nộp bài:</b> Trước khi dùng AI cho bài tập hoặc bài luận, hãy kiểm tra quy định của giảng viên và nhà trường. Dùng AI để hiểu bài thì thường được chấp nhận, còn nộp nội dung AI viết như bài của mình thì thường bị cấm.
+  </div>
+
+  <div class="hero">
+    <h1>Cùng nhau chia sẻ – Học thông minh với AI!</h1>
+    <p>Bản đồ giúp sinh viên biết cách dùng AI nào hiệu quả, chỗ nào cần kiểm chứng và chỗ nào tuyệt đối không nên, kèm diễn đàn để mọi người chia sẻ kinh nghiệm.</p>
+    <a class="btn primary" href="#map">🧭 Mở bản đồ cách dùng</a>
+    <a class="btn light" href="#report">＋ Chia sẻ kinh nghiệm</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="ic">💬</div><div><small>Chia sẻ trong diễn đàn</small><b id="statPosts">0</b></div></div>
+    <div class="stat"><div class="ic">🧭</div><div><small>Cách dùng được phân loại</small><b>08 cách dùng</b></div></div>
+    <div class="stat"><div class="ic">🛡️</div><div><small>Cần đặc biệt cẩn thận</small><b>02 điểm đỏ</b></div></div>
+  </div>
+
+  <section>
+    <h2>🚨 Tình huống cần cẩn thận khi dùng AI</h2>
+    <p class="sub">Những chỗ sinh viên hay vướng nhất.</p>
+    <div class="list">
+      <div class="row"><span>Nộp bài luận do AI viết như bài của mình</span><span class="badge r">Vi phạm</span></div>
+      <div class="row"><span>Tin tuyệt đối số liệu, trích dẫn, tên nguồn mà AI đưa ra</span><span class="badge y">Dễ sai</span></div>
+      <div class="row"><span>Nhập thông tin cá nhân, dữ liệu nhạy cảm vào AI</span><span class="badge r">Rủi ro</span></div>
+      <div class="row"><span>Tự làm trước, nhờ AI góp ý, rồi sửa lại</span><span class="badge g">Nên làm</span></div>
+    </div>
+    <p class="note">* Mức độ mang tính hướng dẫn chung, quy định cụ thể tùy từng trường và từng môn.</p>
+  </section>
+
+  <section>
+    <h2>💡 Lưu ý an toàn khi học cùng AI</h2>
+    <div class="tips" style="margin-top:14px">
+      <div class="tip"><b>1. Tự suy nghĩ trước:</b> Làm thử, ghi lại chỗ vướng rồi mới hỏi AI. Hỏi ngay từ đầu dễ khiến bạn quen phụ thuộc.</div>
+      <div class="tip"><b>2. Kiểm chứng:</b> Đối chiếu với giáo trình, bài giảng hoặc nguồn chính thống, nhất là số liệu, ngày tháng và trích dẫn.</div>
+      <div class="tip"><b>3. Nói lại bằng lời của mình:</b> Giải thích lại cho AI và nhờ nó kiểm tra. Nếu bạn nói lại được, nghĩa là bạn đã hiểu.</div>
+    </div>
+  </section>
+
+  <section id="map">
+    <div class="head-row">
+      <div><h2>🧭 Bản đồ cách dùng AI trong học tập</h2></div>
+    </div>
+    <p class="sub">Lọc theo mức độ, bấm vào từng điểm để xem chi tiết.</p>
+
+    <div class="chips" id="chips">
+      <button class="chip on" data-f="all">Tất cả (08)</button>
+      <button class="chip" data-f="g">🟢 Nên dùng</button>
+      <button class="chip" data-f="y">🟡 Dùng cẩn thận</button>
+      <button class="chip" data-f="r">🔴 Không nên</button>
+    </div>
+    <div class="legend">
+      <span><span class="dot g"></span>Nên dùng</span>
+      <span><span class="dot y"></span>Dùng cẩn thận / cần kiểm chứng</span>
+      <span><span class="dot r"></span>Không nên / dễ vi phạm</span>
+    </div>
+
+    <div class="map">
+      <div class="pins" id="pins"></div>
+      <div class="detail" id="detail"></div>
+      <p class="hint">💡 Chạm vào các thẻ màu để xem chi tiết cách dùng và lý do.</p>
+    </div>
+  </section>
+
+  <section id="forum">
+    <div class="head-row">
+      <h2>💬 Chia sẻ từ cộng đồng</h2>
+      <a class="btn primary" href="#report" style="margin:0">＋ Tạo bài mới</a>
+    </div>
+    <div class="posts" id="posts"></div>
+  </section>
+
+  <section id="report">
+    <div class="form">
+      <h2>📍 Chia sẻ kinh nghiệm dùng AI</h2>
+      <p class="sub">Bài của bạn sẽ hiện ngay trong diễn đàn phía trên.</p>
+      <form id="form">
+        <label for="name">Tên hoặc biệt danh</label>
+        <input id="name" maxlength="40" placeholder="Ví dụ: Minh – K22" required>
+
+        <label for="topic">Bạn dùng AI cho việc gì?</label>
+        <select id="topic">
+          <option>Giải thích khái niệm</option>
+          <option>Ôn tập, tự kiểm tra</option>
+          <option>Góp ý bài viết</option>
+          <option>Học ngoại ngữ</option>
+          <option>Tóm tắt tài liệu</option>
+          <option>Khác</option>
+        </select>
+
+        <label for="level">Mức độ hiệu quả</label>
+        <select id="level">
+          <option value="g">🟢 Rất hữu ích</option>
+          <option value="y">🟡 Dùng được, cần kiểm tra lại</option>
+          <option value="r">🔴 Không hiệu quả / nên tránh</option>
+        </select>
+
+        <label for="text">Chi tiết và mẹo của bạn</label>
+        <textarea id="text" maxlength="600" placeholder="Bạn đã làm thế nào, kết quả ra sao, có mẹo gì?" required></textarea>
+
+        <button class="btn primary" type="submit">Gửi chia sẻ ngay</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>AI STUDY MAP · Nền tảng chia sẻ cách học thông minh cùng AI</footer>
+<div class="toast" id="toast">Thành công!</div>
+
+<script>
+(function () {
+  // ---------- Dữ liệu bản đồ ----------
+  var tools = [
+    { ic: '💡', t: 'Giải thích khái niệm khó', l: 'g', d: 'Nhờ AI giải thích bằng ví dụ đời thường hoặc theo nhiều cách khác nhau.', why: 'Giúp bạn hiểu, miễn là bạn tự diễn đạt lại sau đó.' },
+    { ic: '❓', t: 'Tạo câu hỏi ôn tập', l: 'g', d: 'Yêu cầu AI hỏi bạn từng câu, từ dễ đến khó, rồi nhận xét câu trả lời.', why: 'Tự kiểm tra là cách ôn tập hiệu quả, và AI giúp bạn thấy chỗ còn hổng.' },
+    { ic: '✍️', t: 'Góp ý bản nháp bài viết', l: 'g', d: 'Viết bản nháp của riêng bạn trước, sau đó nhờ AI chỉ ra chỗ thiếu ý hoặc lủng củng.', why: 'Bài vẫn là của bạn, AI chỉ đóng vai người đọc thử.' },
+    { ic: '🌏', t: 'Luyện hội thoại ngoại ngữ', l: 'g', d: 'Trò chuyện với AI bằng ngôn ngữ đang học và nhờ sửa lỗi kèm giải thích.', why: 'Luyện nói và viết thoải mái, không ngại sai.' },
+    { ic: '📄', t: 'Tóm tắt tài liệu dài', l: 'y', d: 'Dùng để nắm ý chính trước khi đọc kỹ.', why: 'Bản tóm tắt có thể bỏ sót hoặc hiểu sai ý. Hãy đối chiếu với tài liệu gốc.' },
+    { ic: '📚', t: 'Tìm tài liệu tham khảo, trích dẫn', l: 'y', d: 'Dùng để gợi ý hướng tìm, từ khóa, chủ đề liên quan.', why: 'AI có thể bịa tên sách, tác giả hoặc đường dẫn. Luôn tự kiểm tra nguồn có tồn tại thật.' },
+    { ic: '🧮', t: 'Nhờ giải bài tập để lấy đáp án', l: 'r', d: 'Dán đề rồi chép đáp án.', why: 'Bạn không học được gì, dễ chép phải đáp án sai và vi phạm nếu bài được chấm. Hãy nhờ gợi ý từng bước thay vì đáp án.' },
+    { ic: '🚫', t: 'Viết hộ bài luận để nộp', l: 'r', d: 'Nhờ AI viết toàn bộ rồi nộp như bài của mình.', why: 'Thường bị coi là gian lận học thuật và bạn mất cơ hội rèn kỹ năng viết.' }
+  ];
+  var lvLabel = { g: 'Nên dùng', y: 'Dùng cẩn thận', r: 'Không nên' };
+  var lvEmoji = { g: '🟢', y: '🟡', r: '🔴' };
+
+  var pinsEl = document.getElementById('pins');
+  var detailEl = document.getElementById('detail');
+  var filter = 'all', selected = 0;
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function showDetail(i) {
+    var x = tools[i];
+    selected = i;
+    detailEl.style.borderLeftColor = x.l === 'g' ? 'var(--green)' : x.l === 'y' ? 'var(--yellow)' : 'var(--red)';
+    detailEl.textContent = '';
+    detailEl.appendChild(el('span', 'badge ' + x.l, lvEmoji[x.l] + ' ' + lvLabel[x.l]));
+    detailEl.appendChild(el('h3', '', x.ic + ' ' + x.t));
+    detailEl.appendChild(el('p', '', x.d));
+    var why = el('p', '');
+    why.appendChild(el('b', '', 'Lý do: '));
+    why.appendChild(document.createTextNode(x.why));
+    detailEl.appendChild(why);
+    Array.prototype.forEach.call(pinsEl.children, function (c) {
+      c.classList.toggle('sel', Number(c.dataset.i) === i);
+    });
+  }
+
+  function renderPins() {
+    pinsEl.textContent = '';
+    var first = -1;
+    tools.forEach(function (x, i) {
+      if (filter !== 'all' && x.l !== filter) return;
+      if (first < 0) first = i;
+      var b = el('button', 'pin');
+      b.type = 'button';
+      b.dataset.i = i;
+      var top = el('div', 'top');
+      top.appendChild(el('span', '', x.ic));
+      top.appendChild(el('span', 'badge ' + x.l, lvLabel[x.l]));
+      b.appendChild(top);
+      b.appendChild(el('b', '', x.t));
+      b.addEventListener('click', function () { showDetail(i); });
+      pinsEl.appendChild(b);
+    });
+    if (first >= 0) showDetail(first);
+  }
+
+  document.getElementById('chips').addEventListener('click', function (e) {
+    var c = e.target.closest('.chip');
+    if (!c) return;
+    filter = c.dataset.f;
+    Array.prototype.forEach.call(this.children, function (x) { x.classList.toggle('on', x === c); });
+    renderPins();
+  });
+  renderPins();
+
+  // ---------- Diễn đàn ----------
+  var KEY = 'aistudymap_posts_v1';
+  var samples = [
+    { name: 'Bài mẫu', topic: 'Ôn tập, tự kiểm tra', level: 'g', text: 'Mẹo: bảo AI hỏi từng câu một và chờ bạn trả lời rồi mới nhận xét. Cách này giống làm đề thử nên nhớ lâu hơn là đọc lại ghi chú.', time: '', sample: true },
+    { name: 'Bài mẫu', topic: 'Tóm tắt tài liệu', level: 'y', text: 'Tóm tắt giúp nắm ý chính nhanh, nhưng mình luôn mở lại tài liệu gốc để kiểm tra vì có lúc AI bỏ sót ý quan trọng.', time: '', sample: true },
+    { name: 'Bài mẫu', topic: 'Học ngoại ngữ', level: 'g', text: 'Mình luyện viết đoạn văn ngắn rồi nhờ AI sửa lỗi và giải thích vì sao sai. Học được nhiều hơn là chỉ xem bản đã sửa.', time: '', sample: true }
+  ];
+  var posts = [];
+  try { posts = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { posts = []; }
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(posts)); } catch (e) {} }
+
+  function renderPosts() {
+    var box = document.getElementById('posts');
+    box.textContent = '';
+    posts.concat(samples).forEach(function (p) {
+      var card = el('div', 'post');
+      var meta = el('div', 'meta');
+      var who = el('span', '');
+      who.appendChild(el('b', '', p.name));
+      if (p.sample) who.appendChild(el('span', 'sample', 'ví dụ'));
+      who.appendChild(el('small', '', ' · ' + p.topic + (p.time ? ' · ' + p.time : '')));
+      meta.appendChild(who);
+      meta.appendChild(el('span', 'badge ' + p.level, lvEmoji[p.level] + ' ' + ({ g: 'Rất hữu ích', y: 'Cần kiểm tra', r: 'Nên tránh' })[p.level]));
+      card.appendChild(meta);
+      card.appendChild(el('p', '', p.text));
+      box.appendChild(card);
+    });
+    document.getElementById('statPosts').textContent = String(posts.length).padStart(2, '0');
+  }
+  renderPosts();
+
+  var toast = document.getElementById('toast');
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = new Date();
+    posts.unshift({
+      name: document.getElementById('name').value.trim(),
+      topic: document.getElementById('topic').value,
+      level: document.getElementById('level').value,
+      text: document.getElementById('text').value.trim(),
+      time: d.toLocaleDateString('vi-VN')
+    });
+    save();
+    renderPosts();
+    this.reset();
+    toast.classList.add('show');
+    setTimeout(function () { toast.classList.remove('show'); }, 2200);
+    document.getElementById('forum').scrollIntoView();
+  });
+
+  // ---------- Menu ----------
+  var links = document.getElementById('links');
+  document.getElementById('burger').addEventListener('click', function () { links.classList.toggle('open'); });
+  links.addEventListener('click', function (e) { if (e.target.tagName === 'A') links.classList.remove('open'); });
+
+  var anchors = Array.prototype.slice.call(links.querySelectorAll('a'));
+  var ids = anchors.map(function (a) { return a.getAttribute('href').slice(1); });
+  window.addEventListener('scroll', function () {
+    var cur = ids[0];
+    ids.forEach(function (id) {
+      var s = document.getElementById(id);
+      if (s && s.getBoundingClientRect().top < 120) cur = id;
+    });
+    anchors.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
